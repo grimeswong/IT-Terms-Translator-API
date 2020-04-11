@@ -10,16 +10,17 @@ var pool = mysql.createPool({
   database        : process.env.DB_NAME
 });
 
-var sql = "SELECT * FROM terms LIMIT 100";
+var sql = "SELECT * FROM terms";
 
 router.get('/', function(req, res, next) {
     console.log(`query = ${req.query}`);
+    console.log(`query.search = ${req.query.search}`);
 
     pool.getConnection(function(err, connection) {
       if (err) throw err;
       console.log("Database Connected");
 
-      connection.query(sql, function (err, results, fields) {
+      connection.query(`${sql} WHERE English = "${req.query.search}" LIMIT 100`, function (err, results, fields) {
         if(err) throw err;
         connection.release();
         console.log('Query executing...')
