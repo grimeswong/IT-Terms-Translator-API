@@ -23,7 +23,7 @@ router.get('/', function(req, res, next) {
         if(err) throw err;
         connection.release();
         console.log('Query executing...')
-        res.json({results});
+        res.json(results);
       });
     })
 });
