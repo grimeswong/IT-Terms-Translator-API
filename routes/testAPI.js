@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
       if (err) throw err;
       console.log("Database Connected");
 
-      connection.query(`${sql} WHERE English = "${req.query.search}" LIMIT 100`, function (err, results, fields) {
+      connection.query(`${sql} WHERE English LIKE "${req.query.search}%" LIMIT 500`, function (err, results, fields) {
         if(err) throw err;
         connection.release();
         console.log('Query executing...')
