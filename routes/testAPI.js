@@ -19,13 +19,18 @@ router.get('/', function(req, res, next) {
     pool.getConnection(function(err, connection) {
       if (err) throw err;
       console.log("Database Connected");
-
-      connection.query(`${sql} WHERE English LIKE "${req.query.search}%" LIMIT 500`, function (err, results, fields) {
-        if(err) throw err;
-        connection.release();
-        console.log('Query executing...')
-        res.json(results);
-      });
+      if(req.query.search==="") { // response empty json
+        console.log("Empty String Query!!!")
+        res.json({});
+      } else {
+        // response the first 500 like search results
+        connection.query(`${sql} WHERE English LIKE "${req.query.search}%" LIMIT 500`, function (err, results, fields) {
+          if(err) throw err;
+          connection.release();
+          console.log('Query executing...')
+          res.json(results);
+        });
+      }
     })
 });
 
